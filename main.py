@@ -1,5 +1,5 @@
 import pygame
-import random
+#import random
 # Initialize the pygame
 pygame.init()
 
@@ -14,6 +14,14 @@ pygame.display.set_icon(icon)
 # Background
 background = pygame.image.load('back.png')
 
+# Bullet
+bulletImg = pygame.image.load('bullet.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 10
+bullet_state = 'ready'
+
 # Player
 playerImg = pygame.image.load('player.png')
 playerX = 370
@@ -27,13 +35,7 @@ enemyImgY = 20
 enemyX_change = 0
 enemyY_change = 30
 
-# Bullet
-bulletImg = pygame.image.load('bullet.png')
-bulletX = 0
-bulletY = 480
-bulletX_change = 0
-bulletY_change = 10
-bullet_state = 'ready'
+
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -44,7 +46,7 @@ def enemy(x, y):
 def bullet(x, y):
     global bullet_state
     bullet_state = 'fire'
-    screen.blit(bulletImg, (x, y))
+    screen.blit(bulletImg, (x + 16, y + 10))
 # Initialize clock
 clock = pygame.time.Clock()
 
@@ -68,7 +70,9 @@ while running:
                 playerX_change = 2.5  # Adjust speed as needed
 
             if event.key == pygame.K_SPACE:
-                bullet(playerX, bulletY_change)
+                if bullet_state == 'ready':
+                    bulletX = playerX
+                    bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -90,8 +94,12 @@ while running:
         enemyX_change = -2
         enemyImgY += enemyY_change
 
+    if bulletY <=0:
+        bulletY = 480
+        bullet_state = 'ready'
+
     if bullet_state == 'fire':
-        bullet(playerX, bulletY)
+        bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
 
@@ -101,7 +109,7 @@ while running:
     # Enemy
     enemy(enemyImgX, enemyImgY)
 
-    bullet(playerX, playerY)
+    #bullet(playerX, bulletY)
     # Update the display
     pygame.display.update()
 
