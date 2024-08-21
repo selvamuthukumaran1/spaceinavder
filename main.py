@@ -21,7 +21,8 @@ mixer.music.play(-1)
 pygame.display.set_caption("Space Invader")
 icon = pygame.image.load('shuttle.png')
 pygame.display.set_icon(icon)
-
+#line = pygame.image.load('dash.png')
+#screen.blit(line, (0, 0))
 # Player
 playerImg = pygame.image.load('player.png')
 playerX = 370
@@ -43,6 +44,8 @@ for i in range(num_of_enemies):
     enemyX_change.append(4)
     enemyY_change.append(40)
 
+# line
+line = pygame.image.load('dash.jpg')
 # Bullet
 
 # Ready - You can't see the bullet on the screen
@@ -107,6 +110,7 @@ while running:
     screen.fill((0, 0, 0))
     # Background Image
     screen.blit(background, (0, 0))
+    screen.blit(line, (0, 485))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
